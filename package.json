@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "@types/bun": "latest",
+    "pkg-pr-new": "^0.0.62"
+  },
+  "module": "src/index.ts",
+  "name": "solana-keygen",
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "build": "bun build ./src/index.ts",
+    "check-types": "tsc -b --noEmit",
+    "lint": "biome check --error-on-warnings",
+    "lint:fix": "biome check --error-on-warnings --write",
+    "test": "bun test"
+  },
+  "type": "module",
+  "version": "0.0.0"
+}
