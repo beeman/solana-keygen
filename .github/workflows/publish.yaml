@@ -11,7 +11,7 @@ on:
 
 jobs:
   publish:
-    if: github.repository == 'beeman/solana-keygen'
+    if: github.repository == 'beeman/solana-keygen' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
       id-token: write
@@ -36,6 +36,34 @@ jobs:
           publish: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+  canary:
+    if: github.repository == 'beeman/solana-keygen' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+
+      - name: Build
+        run: bun run build
+
+      - name: Check package
+        run: bun x publint
+
+      - name: Create canary version
+        run: bun x changeset version --snapshot canary
+
+      - name: Publish canary to NPM
+        run: bun x changeset publish --tag canary
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
 
