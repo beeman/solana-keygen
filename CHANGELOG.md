@@ -1,5 +1,11 @@
 # solana-keygen
 
+## 0.1.3
+
+### Patch Changes
+
+- df5e9a2: update README
+
 ## 0.1.2
 
 ### Patch Changes
