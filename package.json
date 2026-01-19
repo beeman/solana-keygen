@@ -25,9 +25,7 @@
       }
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -48,7 +46,7 @@
     "release": "changeset publish",
     "test": "bun test",
     "test:watch": "bun test --watch",
-    "version": "changeset version"
+    "version": "changeset version && bun lint:fix"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

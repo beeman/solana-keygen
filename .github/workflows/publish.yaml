@@ -33,7 +33,10 @@ jobs:
       - name: Publish to NPM
         uses: changesets/action@v1
         with:
+          commit: "chore: update versions"
           publish: npm run release
+          title: "chore: update versions"
+          version: bun run version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
