@@ -2,6 +2,7 @@
 solana-keygen-*.tgz
 *.tsbuildinfo
 dist
+node_modules
 
 # START Ruler Generated Files
 /.gemini/settings.json
