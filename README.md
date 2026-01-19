@@ -13,7 +13,7 @@ This tool is meant to be run using `bunx`.
 **Generate a new keypair**
 
 ```bash
-bunx solana-keygen
+bun x solana-keygen@latest
 ```
 
 Output:
@@ -30,7 +30,7 @@ Output:
 This is useful for importing into Phantom, Solflare, or other wallets.
 
 ```bash
-bunx solana-keygen | jq -r .base58
+bun x solana-keygen@latest | jq -r .base58
 ```
 
 **Export to environment variables**
@@ -38,17 +38,17 @@ bunx solana-keygen | jq -r .base58
 You can use `jq` to easily export the keys for use in scripts.
 
 ```bash
-export SOLANA_FEE_PAYER=$(bunx solana-keygen | jq -r .base58)
+export SOLANA_FEE_PAYER=$(bun x solana-keygen@latest | jq -r .base58)
 ```
 
 Or, to get both the address and the secret key:
 ```bash
-eval $(bunx solana-keygen | jq -r '"SOLANA_ADDRESS=\(.address)\nSOLANA_SECRET_KEY=\(.base58)"')
+eval $(bun x solana-keygen@latest | jq -r '"SOLANA_ADDRESS=\(.address)\nSOLANA_SECRET_KEY=\(.base58)"')
 ```
 
 You can use this to add or append values to an `.env` file:
 ```bash
-bunx solana-keygen | jq -r '"SOLANA_FEE_PAYER_ADDRESS=\(.address)\nSOLANA_FEE_PAYER_SECRET=\(.base58)"' >> .env
+bun x solana-keygen@latest | jq -r '"SOLANA_FEE_PAYER_ADDRESS=\(.address)\nSOLANA_FEE_PAYER_SECRET=\(.base58)"' >> .env
 ```
 
 ### Library Usage
