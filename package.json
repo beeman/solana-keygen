@@ -36,11 +36,14 @@
   },
   "scripts": {
     "build": "tsup",
+    "changeset": "changeset",
     "check-types": "tsc -b --noEmit",
     "lint": "biome check --error-on-warnings",
     "lint:fix": "biome check --error-on-warnings --write",
+    "release": "changeset publish",
     "test": "bun test",
-    "test:watch": "bun test --watch"
+    "test:watch": "bun test --watch",
+    "version": "changeset version"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
