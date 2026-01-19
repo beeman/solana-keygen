@@ -1,5 +1,11 @@
 # solana-keygen
 
+## 0.1.2
+
+### Patch Changes
+
+- 40932cb: changeset canary config
+
 ## 0.1.1
 
 ### Patch Changes
