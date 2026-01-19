@@ -62,7 +62,7 @@ You can also use this package as a library to integrate key generation into your
   - Separate 32-byte private & public keys
   - Base58 string (compatible with Solana tooling)
   - JSON array of bytes
-- Built entirely with **Bun** and the native Web Crypto API – no external binaries.
+- Built entirely with **Bun** and the native Web Crypto API and [`@solana/kit`](https://npm.im/@solana/kit).
 - Fully typed with TypeScript and includes a small test suite that runs via `bun test`.
 
 #### Installation

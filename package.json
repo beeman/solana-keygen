@@ -3,7 +3,6 @@
     "solana-keygen": "./dist/cli.js"
   },
   "dependencies": {
-    "@solana/assertions": "^5.4.0",
     "@solana/kit": "^5.4.0"
   },
   "devDependencies": {

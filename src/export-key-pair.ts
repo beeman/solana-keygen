@@ -1,9 +1,7 @@
-import { assertKeyGenerationIsAvailable } from '@solana/assertions'
 import { getBase58Decoder } from '@solana/kit'
 import { exportKeyPairToSecretKey } from './export-key-pair-to-secret-key.ts'
 
 export async function exportKeyPair(keyPair: CryptoKeyPair): Promise<{ base58: string; byteArray: string }> {
-  await assertKeyGenerationIsAvailable()
   const secretKey = await exportKeyPairToSecretKey(keyPair)
 
   return {
