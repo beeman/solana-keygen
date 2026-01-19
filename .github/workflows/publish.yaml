@@ -10,6 +10,24 @@ on:
       - main
 
 jobs:
+  check-changesets:
+    if: github.repository == 'beeman/solana-keygen' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      has_changesets: ${{ steps.check.outputs.has_changesets }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Check for changesets
+        id: check
+        run: |
+          if ls .changeset/*.md 2>/dev/null | grep -qv 'README.md'; then
+            echo "has_changesets=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changesets=false" >> $GITHUB_OUTPUT
+          fi
+
   publish:
     if: github.repository == 'beeman/solana-keygen' && github.ref == 'refs/heads/main'
     permissions:
@@ -42,7 +60,8 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
 
   canary:
-    if: github.repository == 'beeman/solana-keygen' && github.ref == 'refs/heads/main'
+    needs: check-changesets
+    if: github.repository == 'beeman/solana-keygen' && github.ref == 'refs/heads/main' && needs.check-changesets.outputs.has_changesets == 'true'
     permissions:
       contents: read
       id-token: write
