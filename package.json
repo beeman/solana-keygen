@@ -1,6 +1,6 @@
 {
   "bin": {
-    "solana-keygen": "./dist/index.js"
+    "solana-keygen": "./dist/cli.js"
   },
   "dependencies": {
     "@solana/assertions": "^5.4.0",

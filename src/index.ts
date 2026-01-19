@@ -1,12 +1,5 @@
-#!/usr/bin/env bun
-import { solanaKeygen } from './solana-keygen.ts'
-
-async function main() {
-  const result = await solanaKeygen()
-  console.log(JSON.stringify(result, null, 2))
-}
-
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
+export { exportKeyPair } from './export-key-pair.ts'
+export { exportKeyPairToBytes } from './export-key-pair-to-bytes.ts'
+export { exportKeyPairToSecretKey } from './export-key-pair-to-secret-key.ts'
+export { generateKeyPairSignerExtractable } from './generate-key-pair-signer-extractable.ts'
+export { solanaKeygen } from './solana-keygen.ts'
