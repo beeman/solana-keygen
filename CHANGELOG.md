@@ -1,5 +1,11 @@
 # solana-keygen
 
+## 0.1.1
+
+### Patch Changes
+
+- b1af02c: change changesets config
+
 ## 0.1.0
 
 ### Minor Changes
