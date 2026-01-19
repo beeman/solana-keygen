@@ -7,5 +7,8 @@
   "fixed": [],
   "ignore": [],
   "linked": [],
+  "snapshot": {
+    "useCalculatedVersion": true
+  },
   "updateInternalDependencies": "patch"
 }
