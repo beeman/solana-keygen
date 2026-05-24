@@ -30,18 +30,35 @@ Output:
 This is useful for importing into Phantom, Solflare, or other wallets.
 
 ```bash
-bun x solana-keygen@latest | jq -r .base58
+bun x solana-keygen@latest --output base58
 ```
+
+The short alias works the same way:
+
+```bash
+bun x solana-keygen@latest -o base58
+```
+
+You can select any output format:
+
+```bash
+bun x solana-keygen@latest --output address
+bun x solana-keygen@latest --output base58
+bun x solana-keygen@latest --output byteArray
+bun x solana-keygen@latest --output json
+```
+
+JSON is also the default output.
 
 **Export to environment variables**
 
-You can use `jq` to easily export the keys for use in scripts.
+You can use `--output` to export a single value for use in scripts.
 
 ```bash
-export SOLANA_FEE_PAYER=$(bun x solana-keygen@latest | jq -r .base58)
+export SOLANA_FEE_PAYER=$(bun x solana-keygen@latest --output base58)
 ```
 
-Or, to get both the address and the secret key:
+Or, use `jq` to get both the address and secret key from the same generated key:
 ```bash
 eval $(bun x solana-keygen@latest | jq -r '"SOLANA_ADDRESS=\(.address)\nSOLANA_SECRET_KEY=\(.base58)"')
 ```
