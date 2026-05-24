@@ -1,5 +1,11 @@
 # solana-keygen
 
+## 0.2.0
+
+### Minor Changes
+
+- a791795: Add support for re-exporting existing base58 and JSON byte-array secret keys from the API and CLI stdin.
+
 ## 0.1.3
 
 ### Patch Changes
