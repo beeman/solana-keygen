@@ -2,7 +2,8 @@
 import { solanaKeygen } from './solana-keygen.ts'
 
 async function main() {
-  const result = await solanaKeygen()
+  const input = process.stdin.isTTY ? undefined : await Bun.stdin.text()
+  const result = await solanaKeygen(input)
   console.log(JSON.stringify(result, null, 2))
 }
 
