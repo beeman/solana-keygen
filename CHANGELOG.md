@@ -1,5 +1,12 @@
 # solana-keygen
 
+## 0.3.0
+
+### Minor Changes
+
+- cbce78d: Add base64 secret-key output and input support.
+- 02feae0: Add CLI output selection for address, base58, byte-array, and json values.
+
 ## 0.2.0
 
 ### Minor Changes
