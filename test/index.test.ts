@@ -21,5 +21,6 @@ test('index.ts solanaKeygen export works correctly', async () => {
 
   expect(result).toHaveProperty('address')
   expect(result).toHaveProperty('base58')
+  expect(result).toHaveProperty('base64')
   expect(result).toHaveProperty('byteArray')
 })

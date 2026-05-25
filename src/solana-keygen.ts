@@ -1,9 +1,9 @@
-import { createKeyPairSignerFromBytes, getBase58Encoder } from '@solana/kit'
+import { createKeyPairSignerFromBytes, getBase58Encoder, getBase64Encoder } from '@solana/kit'
 
 import { exportKeyPair } from './export-key-pair.ts'
 import { generateKeyPairSignerExtractable } from './generate-key-pair-signer-extractable.ts'
 
-const invalidSecretKeyInputMessage = 'Input must be a base58 secret key or JSON byte array'
+const invalidSecretKeyInputMessage = 'Input must be a base58 secret key, base64 secret key, or JSON byte array'
 
 function parseByteArraySecretKey(input: string): Uint8Array {
   if (!input.startsWith('[') || !input.endsWith(']')) {
@@ -36,24 +36,44 @@ function parseByteArraySecretKey(input: string): Uint8Array {
   return new Uint8Array(bytes)
 }
 
+function parseBase58SecretKey(input: string): Uint8Array | undefined {
+  try {
+    const bytes = getBase58Encoder().encode(input)
+
+    if (bytes.length === 64) {
+      return new Uint8Array(bytes)
+    }
+  } catch {}
+
+  return undefined
+}
+
+function parseBase64SecretKey(input: string): Uint8Array | undefined {
+  try {
+    const bytes = getBase64Encoder().encode(input)
+
+    if (bytes.length === 64) {
+      return new Uint8Array(bytes)
+    }
+  } catch {}
+
+  return undefined
+}
+
 function parseSecretKeyInput(input: string): Uint8Array {
   const trimmed = input.trim()
   if (trimmed.length === 0) {
     throw new Error(invalidSecretKeyInputMessage)
   }
 
-  try {
-    const bytes = getBase58Encoder().encode(trimmed)
+  const base58SecretKey = parseBase58SecretKey(trimmed)
+  if (base58SecretKey) {
+    return base58SecretKey
+  }
 
-    if (bytes.length !== 64) {
-      throw new Error('Base58 secret key must decode to 64 bytes')
-    }
-
-    return new Uint8Array(bytes)
-  } catch (error) {
-    if (error instanceof Error && error.message === 'Base58 secret key must decode to 64 bytes') {
-      throw error
-    }
+  const base64SecretKey = parseBase64SecretKey(trimmed)
+  if (base64SecretKey) {
+    return base64SecretKey
   }
 
   return parseByteArraySecretKey(trimmed)

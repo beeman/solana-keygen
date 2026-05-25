@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import { solanaKeygen } from './solana-keygen.ts'
 
-const outputFormats = ['address', 'base58', 'byteArray', 'json'] as const
+const outputFormats = ['address', 'base58', 'base64', 'byteArray', 'json'] as const
 
 type OutputFormat = (typeof outputFormats)[number]
 

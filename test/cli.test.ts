@@ -5,11 +5,12 @@ const cwd = new URL('../', import.meta.url).pathname
 const secretKey = {
   address: '4sa2EtCgxbGEmZXquuNxynvPJVnQzBgs8VnmeQCs4TX3',
   base58: '5sF6vTVVYbYWjZbQ4BrNRHQA3ESgC7BLkEoGFkRTxkW42e43BfcgAQWvhKQFZt3dU3UUjb7aTC7YmDh3U5WM6vTo',
+  base64: '82VRLjEIekM43dUVveTPbcvOKKASwlyZWY17etsHcyM5h3BI77RIPIejKqJBu7+EwgxnlAI37OjB7HGpyAUgLg==',
   byteArray:
     '[243,101,81,46,49,8,122,67,56,221,213,21,189,228,207,109,203,206,40,160,18,194,92,153,89,141,123,122,219,7,115,35,57,135,112,72,239,180,72,60,135,163,42,162,65,187,191,132,194,12,103,148,2,55,236,232,193,236,113,169,200,5,32,46]',
 }
 
-async function runCli(args: string[] = []) {
+async function runCli(args: string[] = [], input = secretKey.base58) {
   const process = Bun.spawn(['bun', 'src/cli.ts', ...args], {
     cwd,
     stderr: 'pipe',
@@ -17,7 +18,7 @@ async function runCli(args: string[] = []) {
     stdout: 'pipe',
   })
 
-  process.stdin.write(secretKey.base58)
+  process.stdin.write(input)
   process.stdin.end()
 
   const [exitCode, stderr, stdout] = await Promise.all([
@@ -59,6 +60,22 @@ test('cli outputs selected field with -o', async () => {
   expect(result.exitCode).toBe(0)
   expect(result.stderr).toBe('')
   expect(result.stdout).toBe(`${secretKey.address}\n`)
+})
+
+test('cli accepts base64 input', async () => {
+  const result = await runCli(['--output', 'address'], secretKey.base64)
+
+  expect(result.exitCode).toBe(0)
+  expect(result.stderr).toBe('')
+  expect(result.stdout).toBe(`${secretKey.address}\n`)
+})
+
+test('cli outputs secret key base64', async () => {
+  const result = await runCli(['--output', 'base64'])
+
+  expect(result.exitCode).toBe(0)
+  expect(result.stderr).toBe('')
+  expect(result.stdout).toBe(`${secretKey.base64}\n`)
 })
 
 test('cli rejects invalid --output value', async () => {

@@ -1,15 +1,18 @@
 import { expect, test } from 'bun:test'
+import { getBase64Encoder } from '@solana/kit'
 import { exportKeyPair } from '../src/export-key-pair.ts'
 import { exportKeyPairToSecretKey } from '../src/export-key-pair-to-secret-key.ts'
 
-test('exportKeyPair returns base58 and byteArray properties', async () => {
+test('exportKeyPair returns export format properties', async () => {
   const keyPair = await crypto.subtle.generateKey({ name: 'Ed25519', namedCurve: 'Ed25519' }, true, ['sign', 'verify'])
 
   const result = await exportKeyPair(keyPair)
 
   expect(result).toHaveProperty('base58')
+  expect(result).toHaveProperty('base64')
   expect(result).toHaveProperty('byteArray')
   expect(typeof result.base58).toBe('string')
+  expect(typeof result.base64).toBe('string')
   expect(typeof result.byteArray).toBe('string')
 })
 
@@ -61,4 +64,13 @@ test('exportKeyPair byteArray equals secret key bytes', async () => {
   const secretKey = await exportKeyPairToSecretKey(keyPair)
 
   expect(Array.from(byteArray)).toEqual(Array.from(secretKey))
+})
+
+test('exportKeyPair base64 equals secret key bytes', async () => {
+  const keyPair = await crypto.subtle.generateKey({ name: 'Ed25519', namedCurve: 'Ed25519' }, true, ['sign', 'verify'])
+
+  const result = await exportKeyPair(keyPair)
+  const secretKey = await exportKeyPairToSecretKey(keyPair)
+
+  expect(Array.from(getBase64Encoder().encode(result.base64))).toEqual(Array.from(secretKey))
 })

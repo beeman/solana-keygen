@@ -21,6 +21,7 @@ Output:
 {
   "address": "...",
   "base58": "...",
+  "base64": "...",
   "byteArray": "..."
 }
 ```
@@ -44,11 +45,20 @@ You can select any output format:
 ```bash
 bun x solana-keygen@latest --output address
 bun x solana-keygen@latest --output base58
+bun x solana-keygen@latest --output base64
 bun x solana-keygen@latest --output byteArray
 bun x solana-keygen@latest --output json
 ```
 
 JSON is also the default output.
+
+**Re-export an existing key**
+
+If stdin is provided, the CLI reads it as a base58 secret key, base64 secret key, or JSON byte-array secret key.
+
+```bash
+printf '%s' "$SOLANA_SECRET_KEY_BASE64" | bun x solana-keygen@latest --output address
+```
 
 **Export to environment variables**
 
@@ -78,6 +88,7 @@ You can also use this package as a library to integrate key generation into your
   - Secret key (64 bytes, private + public)
   - Separate 32-byte private & public keys
   - Base58 string (compatible with Solana tooling)
+  - Base64 string (secret key)
   - JSON array of bytes
 - Built entirely with **Bun** and the native Web Crypto API and [`@solana/kit`](https://npm.im/@solana/kit).
 - Fully typed with TypeScript and includes a small test suite that runs via `bun test`.
@@ -96,6 +107,7 @@ async function demo() {
 
   console.log('Address:', result.address)
   console.log('Secret key (Base58):', result.base58)
+  console.log('Secret key (Base64):', result.base64)
   console.log('Secret key (JSON array):', result.byteArray)
 }
 
@@ -119,9 +131,9 @@ async function demo() {
   // Separate private/public
   const { privateKey, publicKey } = await exportKeyPairToBytes(signer.keyPair)
 
-  // Base58 & JSON
-  const { base58, byteArray } = await exportKeyPair(signer.keyPair)
-  console.log({ base58, byteArray })
+  // Base58, Base64 & JSON
+  const { base58, base64, byteArray } = await exportKeyPair(signer.keyPair)
+  console.log({ base58, base64, byteArray })
 }
 
 demo()
@@ -145,7 +157,7 @@ src/
 ├─ solana-keygen.ts # Main keygen function
 ├─ export-key-pair-to-bytes.ts # Export private/public as Uint8Array
 ├─ export-key-pair-to-secret-key.ts # Export 64-byte secret key
-├─ export-key-pair.ts # Export base58 string & JSON array
+├─ export-key-pair.ts # Export base58, base64 & JSON array
 ├─ generate-key-pair-signer-extractable.ts # Key generation helper
 └─ index.ts # Re-exports public API
 
